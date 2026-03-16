@@ -29,6 +29,18 @@
             --accent: #4f46e5;
             --success: #10b981;
             --danger: #ef4444;
+
+            --theme-gradient: linear-gradient(135deg, #1e293b, #0f172a);
+        }
+
+        body.theme-mati {
+            --accent: #10b981;
+            --theme-gradient: linear-gradient(135deg, #065f46, #064e3b);
+        }
+
+        body.theme-michelle {
+            --accent: #d946ef;
+            --theme-gradient: linear-gradient(135deg, #701a75, #4a044e);
         }
 
         * {
@@ -43,7 +55,7 @@
             background-color: var(--bg);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 60px;
+            padding-bottom: 90px; /* Increased for bottom nav */
         }
 
         .container {
@@ -56,7 +68,61 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 30px;
+            padding-bottom: 20px;
+        }
+
+        .tab-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .view-section {
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        .wide-pillar {
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+        }
+
+        .person-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
         .month-display {
@@ -108,8 +174,9 @@
         .dash-card.main {
             flex: 1 1 100%;
             padding: 40px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            background: var(--theme-gradient);
             border: 2px solid var(--accent);
+            transition: all 0.5s ease;
         }
 
         @media (min-width: 900px) {
@@ -751,6 +818,115 @@
 
         .bulk-mode .item-checkbox { display: flex; }
         .item-checkbox { display: none; }
+
+        /* Bottom Navigation & FAB */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(19, 26, 43, 0.95);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 12px 10px 25px 10px; /* Extra bottom padding for safe area */
+            z-index: 2500;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+
+        .fab {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+            margin-top: -45px;
+            border: 4px solid var(--bg);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .fab:active {
+            transform: scale(0.9);
+        }
+
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 14, 26, 0.98);
+            z-index: 4000;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-input-wrapper i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+
+        .close-search {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -758,27 +934,18 @@
 
     <div class="container" id="mainApp">
         <header>
-            <div style="display:flex; gap:10px">
-                <button class="nav-btn" onclick="changeMonth(-1)"><i class="fas fa-arrow-left"></i></button>
-                <button class="nav-btn" onclick="clearMonth()" title="Limpiar Mes" style="color:var(--danger)"><i
-                        class="fas fa-trash-alt"></i></button>
-                <button class="nav-btn" onclick="openSettings()" title="Ajustes"><i class="fas fa-cog"></i></button>
-            </div>
             <div class="month-display" id="monthDisplay">Cargando...</div>
-            <div class="search-container">
-                <i class="fas fa-search"></i>
-                <input type="text" id="globalSearch" placeholder="Buscar gastos..." oninput="handleSearch()">
-            </div>
             <div style="display:flex; gap:10px">
-                <button class="nav-btn" onclick="toggleBulkMode()" title="Selección Múltiple"><i class="fas fa-tasks"></i></button>
-                <button class="nav-btn" onclick="openInstallmentsModal()" title="Resumen Cuotas"><i class="fas fa-calendar-alt"></i></button>
-                <button class="nav-btn" id="syncBtn" onclick="syncCloud()" title="Sincronizar Nube"><i
-                        class="fas fa-cloud-upload-alt"></i></button>
-                <button class="nav-btn" onclick="openExcelModal()" title="Importar desde Excel"><i
-                        class="fas fa-file-excel"></i></button>
-                <button class="nav-btn" onclick="changeMonth(1)"><i class="fas fa-arrow-right"></i></button>
+                <button class="nav-btn" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-btn" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
             </div>
         </header>
+
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('global')"><i class="fas fa-globe"></i> GLOBAL</button>
+            <button class="tab-btn" onclick="switchTab('mati')"><i class="fas fa-user"></i> MATÍAS</button>
+            <button class="tab-btn" onclick="switchTab('michelle')"><i class="fas fa-user-dress"></i> MICHELLE</button>
+        </div>
 
         <div class="income-section">
             <div class="income-title"><i class="fas fa-coins"></i> INGRESOS</div>
@@ -796,34 +963,62 @@
             </div>
         </div>
 
-        <div class="dashboard">
-            <div class="dash-card main">
-                <div class="dash-label">Disponible Total Mes</div>
-                <div class="dash-value" id="val_disponible">$0</div>
-            </div>
-            <div class="dash-card savings">
-                <div class="dash-label">Ahorrado</div>
-                <div class="dash-value" id="val_ahorro_total">$0</div>
-                <div class="goal-container">
-                    <div id="goalProgress" class="goal-bar"></div>
+
+        <div id="view_global" class="view-section active">
+            <div class="dashboard" id="globalDash">
+                <div class="dash-card main">
+                    <div class="dash-label">Disponible Total Mes</div>
+                    <div class="dash-value" id="val_disponible">$0</div>
                 </div>
-                <div class="goal-text"><span id="goalLabel">Meta: $0</span> <span id="goalPercent">0%</span></div>
+                <!-- ... rest of global dashboard moved here in render ... -->
             </div>
-            <div class="dash-card">
-                <div class="dash-label">Gasto Consolidado</div>
-                <div class="dash-value" id="val_gastos">$0</div>
-            </div>
-            <div class="dash-card">
-                <div class="dash-label">Mati Libre</div>
-                <div class="dash-value" id="val_mati">$0</div>
-            </div>
-            <div class="dash-card">
-                <div class="dash-label">Michelle Libre</div>
-                <div class="dash-value" id="val_michelle">$0</div>
-            </div>
+            <div class="pillar-grid" id="pillarGrid"></div>
         </div>
 
-        <div class="pillar-grid" id="pillarGrid"></div>
+        <div id="view_mati" class="view-section">
+            <div class="person-summary" id="matiSummary"></div>
+            <div class="pillar-grid" id="matiGrid"></div>
+        </div>
+
+        <div id="view_michelle" class="view-section">
+            <div class="person-summary" id="michelleSummary"></div>
+            <div class="pillar-grid" id="michelleGrid"></div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" onclick="showView('home')">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </div>
+        <div class="nav-item" onclick="toggleSearchOverlay()">
+            <i class="fas fa-search"></i>
+            <span>Buscar</span>
+        </div>
+        <div class="fab" onclick="openUniversalAdd()">
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="nav-item" onclick="showTools()">
+            <i class="fas fa-tools"></i>
+            <span>Herramientas</span>
+        </div>
+        <div class="nav-item" onclick="openSettings()">
+            <i class="fas fa-cog"></i>
+            <span>Ajustes</span>
+        </div>
+    </nav>
+
+    <!-- Search Overlay -->
+    <div id="searchOverlay" class="search-overlay">
+        <div class="search-header">
+            <i class="fas fa-arrow-left close-search" onclick="toggleSearchOverlay()"></i>
+            <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="overlaySearch" placeholder="¿Qué gasto buscas?" oninput="handleOverlaySearch()">
+            </div>
+        </div>
+        <div id="searchResults" style="flex:1; overflow-y:auto;"></div>
     </div>
 
     <!-- Modals -->
@@ -1012,6 +1207,54 @@
         </div>
     </div>
 
+    <div id="universalAddModal" class="modal">
+        <div class="modal-content" style="max-width:450px;">
+            <h3 id="uniTitle"><i class="fas fa-plus-circle"></i> Nuevo Registro</h3>
+            <div style="display:flex; flex-direction:column; gap:12px; margin-top:15px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
+                     <button class="choice-btn" id="uniPillarM" onclick="setUniPillar('M')" style="padding:10px; flex-direction:column; border-color:var(--color-m);"><i class="fas fa-user" style="color:var(--color-m)"></i><span style="font-size:0.7rem">MATI</span></button>
+                     <button class="choice-btn" id="uniPillarP" onclick="setUniPillar('P')" style="padding:10px; flex-direction:column; border-color:var(--color-p);"><i class="fas fa-user-dress" style="color:var(--color-p)"></i><span style="font-size:0.7rem">MICHI</span></button>
+                     <button class="choice-btn" id="uniPillarS" onclick="setUniPillar('S')" style="padding:10px; flex-direction:column; border-color:var(--color-s);"><i class="fas fa-users" style="color:var(--color-s)"></i><span style="font-size:0.7rem">COMP</span></button>
+                </div>
+                
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:2">
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">MONTO</label>
+                        <input type="number" id="uniAmount" placeholder="$0" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; font-size:1.2rem; outline:none;" inputmode="numeric">
+                    </div>
+                    <div style="flex:1">
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">CUOTAS</label>
+                        <input type="number" id="uniCuotas" placeholder="1" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                    </div>
+                </div>
+
+                <div>
+                    <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">DESCRIPCIÓN</label>
+                    <input type="text" id="uniDesc" placeholder="¿En qué se gastó?" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                </div>
+
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <div style="flex:1">
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">CATEGORÍA</label>
+                        <select id="uniSub" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                            <option value="">General</option>
+                        </select>
+                    </div>
+                    <div style="width:80px">
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">TIPO</label>
+                        <div class="type-swapper" id="uniTypeSwapper">
+                            <button class="type-opt active" id="uniTypeG" onclick="setUniType('G')">G</button>
+                            <button class="type-opt" id="uniTypeA" onclick="setUniType('A')">A</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-btns">
+                <button class="btn-confirm" onclick="confirmUniversalAdd()" style="background:var(--success)">Guardar Gasto</button>
+                <button class="btn-cancel" onclick="closeModals()">Cerrar</button>
+            </div>
+        </div>
+    </div>
     <div id="installmentsModal" class="modal">
         <div class="modal-content" style="max-width:500px">
             <h3>Resumen de Cuotas</h3>
@@ -1028,8 +1271,11 @@
         let activeEntryForMove = null;
         let activeTypes = {}; // State for G/A toggle per pillar
         let searchFilter = '';
-        let bulkSelected = []; // IDs selected
         let bulkMode = false;
+        let activeUniPillar = 'S';
+        let activeUniType = 'G';
+        let bulkSelected = [];
+        let activeTab = 'global';
 
         let db = JSON.parse(localStorage.getItem('mati_finance_v9')) || JSON.parse(localStorage.getItem('mati_finance_v8')) || {
             months: {},
@@ -1168,6 +1414,8 @@
 
                         if (confirmPull) {
                             db = cloudDb;
+                            if (!db.config.collapsedSections) db.config.collapsedSections = {};
+                            if (!db.config.fixedExpenses) db.config.fixedExpenses = [];
                             save(); render();
                             vibrate([30, 15, 30]);
                             setStatus('¡Bajada completada!', 'success');
@@ -1443,117 +1691,170 @@
             document.getElementById('inc_mati').value = data.incomes?.mati || '';
             document.getElementById('inc_michelle').value = data.incomes?.michelle || '';
 
-            const grid = document.getElementById('pillarGrid'); grid.innerHTML = '';
             let totalExp = 0, totalSavings = 0, matiExp = 0, michelleExp = 0;
-
-            // Global wealth calculation
             Object.values(db.months).forEach(m => (m.entries || []).forEach(e => { if (e.type === 'savings') totalSavings += e.amount; }));
 
-            db.config.pillars.forEach(p => {
-                let entries = (data.entries || []).filter(e => e.pid === p.id);
-                
-                // Search Filter
-                if (searchFilter) {
-                    entries = entries.filter(e => e.desc.toLowerCase().includes(searchFilter) || e.amount.toString().includes(searchFilter));
-                }
+            const allEntries = data.entries || [];
+            allEntries.forEach(e => {
+                if (e.pid === 'S') { matiExp += e.amount / 2; michelleExp += e.amount / 2; totalExp += e.amount; }
+                else if (e.pid === 'M') { matiExp += e.amount; totalExp += e.amount; }
+                else if (e.pid === 'P') { michelleExp += e.amount; totalExp += e.amount; }
+            });
 
-                const pillarTotal = entries.reduce((s, e) => s + e.amount, 0);
-                totalExp += pillarTotal;
+            const goal = db.config.savingsGoal || 0;
+            const percent = goal > 0 ? Math.min(100, (totalSavings / goal) * 100) : 0;
+            const incTotal = (data.incomes?.mati || 0) + (data.incomes?.michelle || 0);
+            const disponible = incTotal - totalExp;
 
-                entries.forEach(e => {
-                    if (p.id === 'S') { matiExp += e.amount / 2; michelleExp += e.amount / 2; }
-                    else if (p.id === 'M') matiExp += e.amount;
-                    else if (p.id === 'P') michelleExp += e.amount;
-                });
-
-                const pColor = `var(${p.color})`;
-                if (!activeTypes[p.id]) activeTypes[p.id] = 'G';
-
-                grid.innerHTML += `
-                    <div class="pillar ${p.id}">
-                        <div class="pillar-header" style="color:${pColor}">
-                            <div class="header-actions">
-                                <span>${p.name}</span>
-                                <i class="fas fa-plus-circle add-sub-icon" onclick="openAddSub('${p.id}')"></i>
-                            </div>
-                            <small>${format(pillarTotal)}</small>
-                        </div>
-                        <div class="quick-entry">
-                            <div class="entry-top-row">
-                                <input type="number" id="amt_${p.id}" placeholder="$" inputmode="numeric">
-                                <input type="text" id="dsc_${p.id}" placeholder="Descripción">
-                                <button class="btn-save" style="background:${pColor}" onclick="addEntry('${p.id}')"><i class="fas fa-plus"></i></button>
-                            </div>
-                            <div class="entry-bottom-row">
-                                <select id="sub_${p.id}" style="grid-column: span 1">
-                                    <option value="">GENERAL</option>
-                                    ${p.subs.map(s => `<option value="${s.id}">${s.name}</option>`).join('')}
-                                </select>
-                                <div class="type-swapper" data-pid-type="${p.id}">
-                                    <button class="type-opt ${activeTypes[p.id] === 'G' ? 'active' : ''}" onclick="setType('${p.id}','G')">G</button>
-                                    <button class="type-opt ${activeTypes[p.id] === 'A' ? 'active savings' : ''}" onclick="setType('${p.id}','A')">A</button>
-                                </div>
-                                <input type="number" id="qta_${p.id}" placeholder="Q">
-                            </div>
-                        </div>
-                        <div class="ledger-list" id="list_${p.id}"></div>
+            if (activeTab === 'global') {
+                document.getElementById('globalDash').innerHTML = `
+                    <div class="dash-card main">
+                        <div class="dash-label">Disponible Total Mes</div>
+                        <div class="dash-value" id="val_disponible" style="color:${disponible < 0 ? 'var(--danger)' : 'var(--success)'}">${(disponible < 0 ? '-' : '') + format(disponible)}</div>
+                    </div>
+                    <div class="dash-card savings">
+                        <div class="dash-label">Ahorrado</div>
+                        <div class="dash-value">${format(totalSavings)}</div>
+                        <div class="goal-container"><div class="goal-bar" style="width: ${percent}%"></div></div>
+                        <div class="goal-text"><span>Meta: ${format(goal)}</span> <span>${percent.toFixed(1)}%</span></div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-label">Gasto Consolidado</div>
+                        <div class="dash-value">${format(totalExp)}</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-label">Mati Libre</div>
+                        <div class="dash-value">${format((data.incomes?.mati || 0) - matiExp)}</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-label">Michelle Libre</div>
+                        <div class="dash-value">${format((data.incomes?.michelle || 0) - michelleExp)}</div>
                     </div>
                 `;
 
-                const list = document.getElementById(`list_${p.id}`);
-                // Sub-sections
-                p.subs.forEach(s => {
-                    const subEntries = entries.filter(e => e.subId === s.id);
-                    if (subEntries.length > 0) {
-                        const sKey = `${p.id}_${s.id}`;
-                        const isCollapsed = db.config.collapsedSections[sKey];
-                        list.innerHTML += `
-                            <div class="sub-header ${isCollapsed ? 'collapsed' : ''}" onclick="toggleSection('${sKey}')">
-                                <span><i class="fas fa-chevron-down collapse-icon"></i>${s.name}</span>
-                                <div style="display:flex; gap:10px; align-items:center">
-                                    <b>${format(subEntries.reduce((t, e) => t + e.amount, 0))}</b> 
-                                    <i class="fas fa-times" onclick="event.stopPropagation(); deleteSub('${p.id}','${s.id}')"></i>
+                const grid = document.getElementById('pillarGrid');
+                grid.innerHTML = '';
+                db.config.pillars.forEach(p => {
+                    let entries = allEntries.filter(e => e.pid === p.id);
+                    if (searchFilter) entries = entries.filter(e => e.desc.toLowerCase().includes(searchFilter) || e.amount.toString().includes(searchFilter));
+                    const pTotal = entries.reduce((s, e) => s + e.amount, 0);
+                    const pColor = `var(${p.color})`;
+                    if (!activeTypes[p.id]) activeTypes[p.id] = 'G';
+
+                    let pId = p.id;
+                    let html = `
+                        <div class="pillar ${pId}">
+                            <div class="pillar-header" style="color:${pColor}">
+                                <div class="header-actions"><span>${p.name}</span><i class="fas fa-plus-circle add-sub-icon" onclick="openAddSub('${pId}')"></i></div>
+                                <small>${format(pTotal)}</small>
+                            </div>
+                            <div class="quick-entry">
+                                <div class="entry-top-row">
+                                    <input type="number" id="amt_${pId}" placeholder="$" inputmode="numeric">
+                                    <input type="text" id="dsc_${pId}" placeholder="Descripción">
+                                    <button class="btn-save" style="background:${pColor}" onclick="addEntry('${pId}')"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div class="entry-bottom-row">
+                                    <select id="sub_${pId}">${p.subs.map(s => `<option value="${s.id}">${s.name}</option>`).join('')}<option value="">GENERAL</option></select>
+                                    <div class="type-swapper" data-pid-type="${pId}"><button class="type-opt ${activeTypes[pId] === 'G' ? 'active' : ''}" onclick="setType('${pId}','G')">G</button><button class="type-opt ${activeTypes[pId] === 'A' ? 'active savings' : ''}" onclick="setType('${pId}','A')">A</button></div>
+                                    <input type="number" id="qta_${pId}" placeholder="Q" style="width:40px">
                                 </div>
                             </div>
-                            <div class="ledger-content ${isCollapsed ? 'collapsed' : ''}">
-                                ${subEntries.map(e => renderItem(e)).join('')}
-                            </div>
+                            <div class="ledger-list" id="list_${pId}"></div>
+                        </div>
+                    `;
+                    grid.innerHTML += html;
+                    const list = document.getElementById(`list_${pId}`);
+                    p.subs.forEach(s => {
+                        const subE = entries.filter(e => e.subId === s.id);
+                        if (subE.length > 0) {
+                            const sKey = `${pId}_${s.id}`;
+                            const isColl = db.config.collapsedSections[sKey];
+                            list.innerHTML += `
+                                <div class="sub-header ${isColl ? 'collapsed' : ''}" onclick="toggleSection('${sKey}')">
+                                    <span><i class="fas fa-chevron-down collapse-icon"></i>${s.name}</span>
+                                    <div style="display:flex; gap:10px; align-items:center">
+                                        <b>${format(subE.reduce((t, e) => t + e.amount, 0))}</b> 
+                                        <i class="fas fa-times" onclick="event.stopPropagation(); deleteSub('${pId}','${s.id}')"></i>
+                                    </div>
+                                </div>
+                                <div class="ledger-content ${isColl ? 'collapsed' : ''}">${subE.map(e => renderItem(e)).join('')}</div>
+                            `;
+                        }
+                    });
+                    const genE = entries.filter(e => !e.subId);
+                    if (genE.length > 0) {
+                        const sKey = `${pId}_gen`;
+                        const isColl = db.config.collapsedSections[sKey];
+                        list.innerHTML += `
+                            <div class="sub-header ${isColl ? 'collapsed' : ''}" onclick="toggleSection('${sKey}')"><span><i class="fas fa-chevron-down collapse-icon"></i>LIBRE</span><b>${format(genE.reduce((t, e) => t + e.amount, 0))}</b></div>
+                            <div class="ledger-content ${isColl ? 'collapsed' : ''}">${genE.map(e => renderItem(e)).join('')}</div>
                         `;
                     }
                 });
-                // General
-                const genEntries = entries.filter(e => !e.subId);
-                if (genEntries.length > 0) {
-                    const sKey = `${p.id}_gen`;
-                    const isCollapsed = db.config.collapsedSections[sKey];
-                    list.innerHTML += `
-                        <div class="sub-header ${isCollapsed ? 'collapsed' : ''}" onclick="toggleSection('${sKey}')">
-                            <span><i class="fas fa-chevron-down collapse-icon"></i>LIBRE</span>
-                            <b>${format(genEntries.reduce((t, e) => t + e.amount, 0))}</b>
-                        </div>
-                        <div class="ledger-content ${isCollapsed ? 'collapsed' : ''}">
-                            ${genEntries.map(e => renderItem(e)).join('')}
+            } else {
+                const targetU = activeTab === 'mati' ? 'mati' : 'michelle';
+                const pIncome = data.incomes?.[targetU] || 0;
+                const pExp = activeTab === 'mati' ? matiExp : michelleExp;
+                const personDisp = pIncome - pExp;
+
+                document.getElementById(targetU + 'Summary').innerHTML = `
+                    <div class="dash-card main">
+                        <div class="dash-label">Mi Disponible</div>
+                        <div class="dash-value" style="color:${personDisp < 0 ? 'var(--danger)' : 'var(--success)'}">${(personDisp < 0 ? '-' : '') + format(personDisp)}</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-label">Mis Ingresos</div>
+                        <div class="dash-value">${format(pIncome)}</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-label">Gastos (Mío + 50% Comp)</div>
+                        <div class="dash-value">${format(pExp)}</div>
+                    </div>
+                `;
+
+                const grid = document.getElementById(targetU + 'Grid');
+                grid.innerHTML = '';
+                const targetPid = activeTab === 'mati' ? 'M' : 'P';
+                [targetPid, 'S'].forEach(pid => {
+                    const p = db.config.pillars.find(pp => pp.id === pid);
+                    const entries = allEntries.filter(e => e.pid === pid);
+                    const pTotal = entries.reduce((s, e) => s + e.amount, 0);
+                    const pColor = `var(${p.color})`;
+                    const listId = `${targetU}_l_${pid}`;
+
+                    grid.innerHTML += `
+                        <div class="pillar wide-pillar" style="border-top:4px solid ${pColor}">
+                            <div class="pillar-header" style="color:${pColor}">
+                                <span>${p.name} ${pid === 'S' ? '(DETALLE COMPLETO)' : ''}</span>
+                                <small>${format(pTotal)}</small>
+                            </div>
+                            <div class="ledger-list" id="${listId}"></div>
                         </div>
                     `;
-                }
-            });
-
-            const incTotal = (data.incomes?.mati || 0) + (data.incomes?.michelle || 0);
-            const disponible = incTotal - totalExp;
-            document.getElementById('val_disponible').innerText = (disponible < 0 ? '-' : '') + format(disponible);
-            document.getElementById('val_disponible').style.color = (disponible < 0) ? 'var(--danger)' : 'var(--success)';
-            document.getElementById('val_ahorro_total').innerText = format(totalSavings);
-
-            // Goals Update
-            const goal = db.config.savingsGoal || 0;
-            const percent = goal > 0 ? Math.min(100, (totalSavings / goal) * 100) : 0;
-            document.getElementById('goalProgress').style.width = percent + '%';
-            document.getElementById('goalLabel').innerText = `Meta: ${format(goal)}`;
-            document.getElementById('goalPercent').innerText = percent.toFixed(1) + '%';
-
-            document.getElementById('val_gastos').innerText = format(totalExp);
-            document.getElementById('val_mati').innerText = format((data.incomes?.mati || 0) - matiExp);
-            document.getElementById('val_michelle').innerText = format((data.incomes?.michelle || 0) - michelleExp);
+                    const list = document.getElementById(listId);
+                    p.subs.forEach(s => {
+                        const subE = entries.filter(e => e.subId === s.id);
+                        if (subE.length > 0) {
+                            const sKey = `${pid}_${s.id}`;
+                            const isColl = db.config.collapsedSections[sKey];
+                            list.innerHTML += `
+                                <div class="sub-header ${isColl ? 'collapsed' : ''}" onclick="toggleSection('${sKey}')"><span><i class="fas fa-chevron-down collapse-icon"></i>${s.name}</span><b>${format(subE.reduce((t, e) => t + e.amount, 0))}</b></div>
+                                <div class="ledger-content ${isColl ? 'collapsed' : ''}">${subE.map(e => renderItem(e)).join('')}</div>
+                            `;
+                        }
+                    });
+                    const genE = entries.filter(e => !e.subId);
+                    if (genE.length > 0) {
+                        const sKey = `${pid}_gen`;
+                        const isColl = db.config.collapsedSections[sKey];
+                        list.innerHTML += `
+                            <div class="sub-header ${isColl ? 'collapsed' : ''}" onclick="toggleSection('${sKey}')"><span><i class="fas fa-chevron-down collapse-icon"></i>LIBRE</span><b>${format(genE.reduce((t, e) => t + e.amount, 0))}</b></div>
+                            <div class="ledger-content ${isColl ? 'collapsed' : ''}">${genE.map(e => renderItem(e)).join('')}</div>
+                        `;
+                    }
+                });
+            }
         }
 
         function renderItem(e) {
@@ -1598,12 +1899,171 @@
         }
 
         function toggleSelectItem(entryId, event) {
-            if (event) event.stopPropagation();
+            if(event) event.stopPropagation();
             const idx = bulkSelected.indexOf(entryId);
             if (idx === -1) bulkSelected.push(entryId);
             else bulkSelected.splice(idx, 1);
             updateBulkBar();
             render();
+            vibrate(5);
+        }
+
+        /* NEW UI LOGIC */
+        function toggleSearchOverlay() {
+            const overlay = document.getElementById('searchOverlay');
+            const isVisible = overlay.style.display === 'flex';
+            overlay.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) document.getElementById('overlaySearch').focus();
+            vibrate(10);
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            
+            // Apply theme to body
+            document.body.className = '';
+            if (tab === 'mati') document.body.classList.add('theme-mati');
+            else if (tab === 'michelle') document.body.classList.add('theme-michelle');
+            else document.body.classList.add('theme-global');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.innerText.toLowerCase().includes(tab)) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            document.querySelectorAll('.view-section').forEach(sec => {
+                if (sec.id === 'view_' + tab) sec.classList.add('active');
+                else sec.classList.remove('active');
+            });
+            render();
+            vibrate(10);
+        }
+
+        function handleOverlaySearch() {
+            const query = document.getElementById('overlaySearch').value.toLowerCase();
+            const results = document.getElementById('searchResults');
+            results.innerHTML = '';
+            
+            if (!query) return;
+
+            const key = getMonthKey();
+            const entries = db.months[key]?.entries || [];
+            const filtered = entries.filter(e => e.desc.toLowerCase().includes(query) || e.amount.toString().includes(query));
+
+            filtered.forEach(e => {
+                results.innerHTML += renderItem(e);
+            });
+        }
+
+        function showTools() {
+            showChoice('Herramientas', 'Elige una opción:', [
+                { value: 'sync', label: 'Sincronizar Nube', icon: 'fas fa-cloud-upload-alt' },
+                { value: 'excel', label: 'Importar Excel', icon: 'fas fa-file-excel' },
+                { value: 'installments', label: 'Resumen Cuotas', icon: 'fas fa-calendar-alt' },
+                { value: 'clear', label: 'Limpiar Mes', icon: 'fas fa-trash-alt', class: 'danger' }
+            ]).then(action => {
+                if (action === 'sync') syncCloud();
+                if (action === 'excel') openExcelModal();
+                if (action === 'installments') openInstallmentsModal();
+                if (action === 'clear') clearMonth();
+            });
+        }
+
+        function openUniversalAdd() {
+            // Context aware selection
+            if (activeTab === 'mati') activeUniPillar = 'M';
+            else if (activeTab === 'michelle') activeUniPillar = 'P';
+            else activeUniPillar = 'S';
+
+            activeUniType = 'G';
+            updateUniUI();
+            
+            // Icon logic
+            const title = document.getElementById('uniTitle');
+            if (activeTab === 'michelle') {
+                title.innerHTML = '<i class="fas fa-user-dress" style="color:var(--color-p)"></i> Nuevo para Michelle';
+            } else if (activeTab === 'mati') {
+                title.innerHTML = '<i class="fas fa-user" style="color:var(--color-m)"></i> Nuevo para Matías';
+            } else {
+                title.innerHTML = '<i class="fas fa-users" style="color:var(--color-s)"></i> Registro Compartido';
+            }
+
+            document.getElementById('uniAmount').value = '';
+            document.getElementById('uniDesc').value = '';
+            document.getElementById('uniCuotas').value = '';
+            document.getElementById('universalAddModal').style.display = 'flex';
+            setTimeout(() => document.getElementById('uniAmount').focus(), 100);
+            vibrate(15);
+        }
+
+        function setUniPillar(pid) {
+            activeUniPillar = pid;
+            updateUniUI();
+            vibrate(10);
+        }
+
+        function setUniType(type) {
+            activeUniType = type;
+            updateUniUI();
+            vibrate(10);
+        }
+
+        function updateUniUI() {
+            ['M', 'P', 'S'].forEach(p => {
+                const btn = document.getElementById('uniPillar' + p);
+                btn.style.background = activeUniPillar === p ? 'rgba(255,255,255,0.1)' : 'transparent';
+                btn.style.borderWidth = activeUniPillar === p ? '2px' : '1px';
+            });
+
+            document.getElementById('uniTypeG').className = `type-opt ${activeUniType === 'G' ? 'active' : ''}`;
+            document.getElementById('uniTypeA').className = `type-opt ${activeUniType === 'A' ? 'active savings' : ''}`;
+
+            const pillar = db.config.pillars.find(p => p.id === activeUniPillar);
+            const select = document.getElementById('uniSub');
+            select.innerHTML = '<option value="">General</option>';
+            pillar.subs.forEach(s => select.innerHTML += `<option value="${s.id}">${s.name}</option>`);
+        }
+
+        function confirmUniversalAdd() {
+            const val = parseInt(document.getElementById('uniAmount').value);
+            const desc = document.getElementById('uniDesc').value;
+            const subId = document.getElementById('uniSub').value;
+            const qta = parseInt(document.getElementById('uniCuotas').value) || 1;
+            
+            if (isNaN(val) || !desc) { vibrate(50); return; }
+
+            const entryId = Date.now();
+            for (let i = 0; i < qta; i++) {
+                let targetDate = new Date(currentDate);
+                targetDate.setMonth(targetDate.getMonth() + i);
+                let targetKey = getMonthKey(targetDate);
+                if (!db.months[targetKey]) db.months[targetKey] = { entries: [], incomes: { mati: 0, michelle: 0 } };
+
+                db.months[targetKey].entries.unshift({
+                    id: entryId + i, pid: activeUniPillar, subId: subId || null,
+                    type: activeUniType === 'A' ? 'savings' : 'expense',
+                    amount: val, desc: desc,
+                    date: new Date().toLocaleDateString('es-CL', { day: '2-digit', month: '2-digit' }),
+                    isCuota: qta > 1, cuotaActual: i + 1, cuotasTotales: qta,
+                    totalTx: val * qta
+                });
+            }
+
+            save(); closeModals(); render();
+            vibrate(activeUniType === 'A' ? [50, 30, 50] : [30, 15]);
+        }
+
+        function showView(view) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                const span = item.querySelector('span');
+                const label = span ? span.innerText.toLowerCase() : '';
+                if (label === 'inicio' && view === 'home' || label === view) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            if (view === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
             vibrate(5);
         }
 
