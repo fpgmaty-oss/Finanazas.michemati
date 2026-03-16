@@ -55,7 +55,8 @@
             background-color: var(--bg);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 90px; /* Increased for bottom nav */
+            padding-bottom: 90px;
+            /* Increased for bottom nav */
         }
 
         .container {
@@ -123,6 +124,64 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 30px;
+        }
+
+        .individual-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (min-width: 1000px) {
+            .individual-layout {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        .stats-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stats-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 25px;
+        }
+
+        .stats-card h4 {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .top-cat-item {
+            margin-bottom: 15px;
+        }
+
+        .top-cat-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .top-cat-bar-bg {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .top-cat-bar-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 3px;
         }
 
         .month-display {
@@ -775,7 +834,7 @@
             align-items: center;
             cursor: pointer;
             transition: all 0.2s;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .item-checkbox.checked {
@@ -789,7 +848,9 @@
             display: none;
         }
 
-        .item-checkbox.checked i { display: block; }
+        .item-checkbox.checked i {
+            display: block;
+        }
 
         .bulk-bar {
             position: fixed;
@@ -803,7 +864,7 @@
             display: none;
             gap: 20px;
             align-items: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
             z-index: 2000;
             backdrop-filter: blur(10px);
         }
@@ -816,8 +877,13 @@
             margin-left: 5px;
         }
 
-        .bulk-mode .item-checkbox { display: flex; }
-        .item-checkbox { display: none; }
+        .bulk-mode .item-checkbox {
+            display: flex;
+        }
+
+        .item-checkbox {
+            display: none;
+        }
 
         /* Bottom Navigation & FAB */
         .bottom-nav {
@@ -831,7 +897,8 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 12px 10px 25px 10px; /* Extra bottom padding for safe area */
+            padding: 12px 10px 25px 10px;
+            /* Extra bottom padding for safe area */
             z-index: 2500;
         }
 
@@ -977,12 +1044,18 @@
 
         <div id="view_mati" class="view-section">
             <div class="person-summary" id="matiSummary"></div>
-            <div class="pillar-grid" id="matiGrid"></div>
+            <div class="individual-layout">
+                <div class="stats-sidebar" id="matiStats"></div>
+                <div class="pillar-grid" id="matiGrid"></div>
+            </div>
         </div>
 
         <div id="view_michelle" class="view-section">
             <div class="person-summary" id="michelleSummary"></div>
-            <div class="pillar-grid" id="michelleGrid"></div>
+            <div class="individual-layout">
+                <div class="stats-sidebar" id="michelleStats"></div>
+                <div class="pillar-grid" id="michelleGrid"></div>
+            </div>
         </div>
     </div>
 
@@ -1079,7 +1152,8 @@
             </div>
             <div class="modal-btns">
                 <button class="btn-confirm" onclick="confirmMove()">Guardar Cambios</button>
-                <button class="btn-confirm" style="background:var(--color-s)" onclick="saveSmartRule()" title="Las próximas veces se categorizará solo"><i class="fas fa-brain"></i> Aprender Regla</button>
+                <button class="btn-confirm" style="background:var(--color-s)" onclick="saveSmartRule()"
+                    title="Las próximas veces se categorizará solo"><i class="fas fa-brain"></i> Aprender Regla</button>
                 <button class="btn-cancel" onclick="closeModals()">Cerrar</button>
                 <button class="btn-cancel" style="background:var(--danger)" onclick="removeEntry()">Eliminar</button>
             </div>
@@ -1101,7 +1175,8 @@
                 <option value="S">COMPARTIDOS</option>
             </select>
 
-            <label style="font-size:0.75rem; color:var(--text-dim); display:block; margin-bottom:5px">SECCIÓN DE DESTINO (Opcional)</label>
+            <label style="font-size:0.75rem; color:var(--text-dim); display:block; margin-bottom:5px">SECCIÓN DE DESTINO
+                (Opcional)</label>
             <select id="excelSubSelect"
                 style="width:100%; padding:12px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; margin-bottom:15px; outline:none;">
             </select>
@@ -1149,7 +1224,9 @@
                 <div id="syncStatus"
                     style="font-size:0.75rem; color:var(--text-dim); text-align:center; margin-top:10px; padding:10px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px dashed var(--border); display:none;">
                 </div>
-                <button onclick="openFixedModal()" style="width:100%; padding:14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; border-radius:12px; font-weight:700; cursor:pointer;"><i class="fas fa-redo"></i> Gestionar Gastos Fijos</button>
+                <button onclick="openFixedModal()"
+                    style="width:100%; padding:14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; border-radius:12px; font-weight:700; cursor:pointer;"><i
+                        class="fas fa-redo"></i> Gestionar Gastos Fijos</button>
             </div>
             <div class="modal-btns">
                 <button class="btn-confirm" onclick="saveSettings()">Guardar Ajustes</button>
@@ -1184,20 +1261,25 @@
     <div id="bulkBar" class="bulk-bar">
         <div style="font-weight:700;"><span id="bulkCount">0</span> SELECCIONADOS</div>
         <div style="display:flex; gap:10px;">
-            <button class="nav-btn" style="width:auto; height:45px; padding:0 15px; font-size:0.9rem;" onclick="openBulkMove()">MOVER <i class="fas fa-arrows-alt"></i></button>
-            <button class="nav-btn" style="width:45px; height:45px; color:var(--danger);" onclick="clearBulk()"><i class="fas fa-times"></i></button>
+            <button class="nav-btn" style="width:auto; height:45px; padding:0 15px; font-size:0.9rem;"
+                onclick="openBulkMove()">MOVER <i class="fas fa-arrows-alt"></i></button>
+            <button class="nav-btn" style="width:45px; height:45px; color:var(--danger);" onclick="clearBulk()"><i
+                    class="fas fa-times"></i></button>
         </div>
     </div>
 
     <div id="fixedModal" class="modal">
         <div class="modal-content">
             <h3>Gastos Fijos (Suscripciones)</h3>
-            <p style="color:var(--text-dim); font-size:0.8rem; margin:10px 0;">Estos gastos se agregarán solos al inicio de cada mes.</p>
+            <p style="color:var(--text-dim); font-size:0.8rem; margin:10px 0;">Estos gastos se agregarán solos al inicio
+                de cada mes.</p>
             <div id="fixedList" style="max-height:300px; overflow-y:auto; margin-bottom:20px;"></div>
-            
+
             <div style="display:grid; grid-template-columns: 1fr 100px 50px; gap:10px; margin-top:15px;">
-                <input type="text" id="fixDesc" placeholder="Nombre (ej: Netflix)" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:12px; padding:10px; color:white;">
-                <input type="number" id="fixAmount" placeholder="$" style="background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:12px; padding:10px; color:white;">
+                <input type="text" id="fixDesc" placeholder="Nombre (ej: Netflix)"
+                    style="background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:12px; padding:10px; color:white;">
+                <input type="number" id="fixAmount" placeholder="$"
+                    style="background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:12px; padding:10px; color:white;">
                 <button class="btn-save" onclick="addFixed()"><i class="fas fa-plus"></i></button>
             </div>
 
@@ -1212,36 +1294,54 @@
             <h3 id="uniTitle"><i class="fas fa-plus-circle"></i> Nuevo Registro</h3>
             <div style="display:flex; flex-direction:column; gap:12px; margin-top:15px;">
                 <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px;">
-                     <button class="choice-btn" id="uniPillarM" onclick="setUniPillar('M')" style="padding:10px; flex-direction:column; border-color:var(--color-m);"><i class="fas fa-user" style="color:var(--color-m)"></i><span style="font-size:0.7rem">MATI</span></button>
-                     <button class="choice-btn" id="uniPillarP" onclick="setUniPillar('P')" style="padding:10px; flex-direction:column; border-color:var(--color-p);"><i class="fas fa-user-dress" style="color:var(--color-p)"></i><span style="font-size:0.7rem">MICHI</span></button>
-                     <button class="choice-btn" id="uniPillarS" onclick="setUniPillar('S')" style="padding:10px; flex-direction:column; border-color:var(--color-s);"><i class="fas fa-users" style="color:var(--color-s)"></i><span style="font-size:0.7rem">COMP</span></button>
+                    <button class="choice-btn" id="uniPillarM" onclick="setUniPillar('M')"
+                        style="padding:10px; flex-direction:column; border-color:var(--color-m);"><i class="fas fa-user"
+                            style="color:var(--color-m)"></i><span style="font-size:0.7rem">MATI</span></button>
+                    <button class="choice-btn" id="uniPillarP" onclick="setUniPillar('P')"
+                        style="padding:10px; flex-direction:column; border-color:var(--color-p);"><i
+                            class="fas fa-user-dress" style="color:var(--color-p)"></i><span
+                            style="font-size:0.7rem">MICHI</span></button>
+                    <button class="choice-btn" id="uniPillarS" onclick="setUniPillar('S')"
+                        style="padding:10px; flex-direction:column; border-color:var(--color-s);"><i
+                            class="fas fa-users" style="color:var(--color-s)"></i><span
+                            style="font-size:0.7rem">COMP</span></button>
                 </div>
-                
+
                 <div style="display:flex; gap:10px;">
                     <div style="flex:2">
-                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">MONTO</label>
-                        <input type="number" id="uniAmount" placeholder="$0" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; font-size:1.2rem; outline:none;" inputmode="numeric">
+                        <label
+                            style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">MONTO</label>
+                        <input type="number" id="uniAmount" placeholder="$0"
+                            style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; font-size:1.2rem; outline:none;"
+                            inputmode="numeric">
                     </div>
                     <div style="flex:1">
-                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">CUOTAS</label>
-                        <input type="number" id="uniCuotas" placeholder="1" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                        <label
+                            style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">CUOTAS</label>
+                        <input type="number" id="uniCuotas" placeholder="1"
+                            style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
                     </div>
                 </div>
 
                 <div>
-                    <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">DESCRIPCIÓN</label>
-                    <input type="text" id="uniDesc" placeholder="¿En qué se gastó?" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                    <label
+                        style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">DESCRIPCIÓN</label>
+                    <input type="text" id="uniDesc" placeholder="¿En qué se gastó?"
+                        style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
                 </div>
 
                 <div style="display:flex; gap:10px; align-items:center;">
                     <div style="flex:1">
-                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">CATEGORÍA</label>
-                        <select id="uniSub" style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
+                        <label
+                            style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">CATEGORÍA</label>
+                        <select id="uniSub"
+                            style="width:100%; padding:14px; border-radius:12px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:white; outline:none;">
                             <option value="">General</option>
                         </select>
                     </div>
                     <div style="width:80px">
-                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">TIPO</label>
+                        <label
+                            style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:5px">TIPO</label>
                         <div class="type-swapper" id="uniTypeSwapper">
                             <button class="type-opt active" id="uniTypeG" onclick="setUniType('G')">G</button>
                             <button class="type-opt" id="uniTypeA" onclick="setUniType('A')">A</button>
@@ -1250,7 +1350,8 @@
                 </div>
             </div>
             <div class="modal-btns">
-                <button class="btn-confirm" onclick="confirmUniversalAdd()" style="background:var(--success)">Guardar Gasto</button>
+                <button class="btn-confirm" onclick="confirmUniversalAdd()" style="background:var(--success)">Guardar
+                    Gasto</button>
                 <button class="btn-cancel" onclick="closeModals()">Cerrar</button>
             </div>
         </div>
@@ -1369,8 +1470,8 @@
             }
 
             const btn = document.getElementById('syncBtn');
-            const originalIcon = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-sync fa-spin"></i>';
+            const originalIcon = btn ? btn.innerHTML : '';
+            if (btn) btn.innerHTML = '<i class="fas fa-sync fa-spin"></i>';
             vibrate(10);
             setStatus('Esperando elección...');
 
@@ -1433,7 +1534,7 @@
                 setStatus('Error: ' + err.message, 'error');
                 showAlert('ERROR: ' + err.message + '\n\nVerifica que la URL sea correcta y que el script sea público.', 'Error de Sincronización');
             } finally {
-                btn.innerHTML = originalIcon;
+                if (btn) btn.innerHTML = originalIcon;
             }
         }
 
@@ -1807,9 +1908,36 @@
                         <div class="dash-label">Mis Ingresos</div>
                         <div class="dash-value">${format(pIncome)}</div>
                     </div>
-                    <div class="dash-card">
-                        <div class="dash-label">Gastos (Mío + 50% Comp)</div>
-                        <div class="dash-value">${format(pExp)}</div>
+                `;
+
+                // Calculate Stats for Sidebar
+                const pEntries = allEntries.filter(e => e.pid === targetPid || (targetPid === 'M' ? e.pid === 'S' : e.pid === 'S'));
+                const statsMap = {};
+                pEntries.forEach(e => {
+                    const pillar = db.config.pillars.find(p => p.id === e.pid);
+                    const sub = pillar.subs.find(s => s.id === e.subId);
+                    const catName = sub ? sub.name : 'GENERAL';
+                    statsMap[catName] = (statsMap[catName] || 0) + (e.pid === 'S' ? e.amount / 2 : e.amount);
+                });
+                const sortedStats = Object.entries(statsMap).sort((a,b) => b[1] - a[1]).slice(0, 5);
+                const maxStat = sortedStats.length > 0 ? sortedStats[0][1] : 1;
+
+                document.getElementById(targetU + 'Stats').innerHTML = `
+                    <div class="stats-card">
+                        <h4>Principales Gastos</h4>
+                        ${sortedStats.map(([name, val]) => `
+                            <div class="top-cat-item">
+                                <div class="top-cat-info"><span>${name}</span> <span>${format(val)}</span></div>
+                                <div class="top-cat-bar-bg"><div class="top-cat-bar-fill" style="width: ${(val/maxStat)*100}%"></div></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="stats-card">
+                        <h4>Resumen Rápido</h4>
+                        <div style="font-size:0.85rem; color:var(--text-dim);">
+                            Llevas <strong>${pEntries.length}</strong> movimientos registrados este mes.<br><br>
+                            Tu gasto más alto: <strong>${format(Math.max(...pEntries.map(e => e.amount), 0))}</strong>
+                        </div>
                     </div>
                 `;
 
@@ -1899,7 +2027,7 @@
         }
 
         function toggleSelectItem(entryId, event) {
-            if(event) event.stopPropagation();
+            if (event) event.stopPropagation();
             const idx = bulkSelected.indexOf(entryId);
             if (idx === -1) bulkSelected.push(entryId);
             else bulkSelected.splice(idx, 1);
@@ -1919,7 +2047,7 @@
 
         function switchTab(tab) {
             activeTab = tab;
-            
+
             // Apply theme to body
             document.body.className = '';
             if (tab === 'mati') document.body.classList.add('theme-mati');
@@ -1942,7 +2070,7 @@
             const query = document.getElementById('overlaySearch').value.toLowerCase();
             const results = document.getElementById('searchResults');
             results.innerHTML = '';
-            
+
             if (!query) return;
 
             const key = getMonthKey();
@@ -1976,7 +2104,7 @@
 
             activeUniType = 'G';
             updateUniUI();
-            
+
             // Icon logic
             const title = document.getElementById('uniTitle');
             if (activeTab === 'michelle') {
@@ -2028,7 +2156,7 @@
             const desc = document.getElementById('uniDesc').value;
             const subId = document.getElementById('uniSub').value;
             const qta = parseInt(document.getElementById('uniCuotas').value) || 1;
-            
+
             if (isNaN(val) || !desc) { vibrate(50); return; }
 
             const entryId = Date.now();
@@ -2079,13 +2207,13 @@
         }
 
         async function openBulkMove() {
-            const dest = await showChoice('Mover Selección', `Mover ${bulkSelected.length} items a:`, 
-                db.config.pillars.map(p => ({ 
-                    value: p.id, label: p.name, sub: `Mover a pilar ${p.name}`, icon: 'fas fa-arrow-right' 
+            const dest = await showChoice('Mover Selección', `Mover ${bulkSelected.length} items a:`,
+                db.config.pillars.map(p => ({
+                    value: p.id, label: p.name, sub: `Mover a pilar ${p.name}`, icon: 'fas fa-arrow-right'
                 }))
             );
             if (!dest) return;
-            
+
             const pillar = db.config.pillars.find(p => p.id === dest);
             const subDest = await showChoice('Elegir Sección', 'Selecciona la sección de destino:', [
                 { value: '', label: 'GENERAL', sub: 'Sin sub-categoría', icon: 'fas fa-folder' },
@@ -2099,7 +2227,7 @@
                     e.subId = subDest || null;
                 }
             });
-            
+
             save(); clearBulk(); render();
             showAlert(`${bulkSelected.length} items movidos con éxito.`);
         }
@@ -2108,7 +2236,7 @@
             const desc = document.getElementById('editDesc').value.toLowerCase().trim();
             const subId = document.getElementById('moveDestSelect').value;
             const pid = document.getElementById('movePillarSelect').value;
-            
+
             if (!desc) return;
             db.config.autoCats[desc] = { pid, subId };
             save(); vibrate([30, 15, 30]);
@@ -2187,7 +2315,7 @@
         function openInstallmentsModal() {
             const container = document.getElementById('installmentContainer');
             container.innerHTML = '';
-            
+
             // Collect all unique installment series
             const series = {};
             Object.values(db.months).forEach(m => {
