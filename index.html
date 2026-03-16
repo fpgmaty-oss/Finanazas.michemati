@@ -1894,6 +1894,7 @@
                     }
                 });
             } else {
+                const targetPid = activeTab === 'mati' ? 'M' : 'P';
                 const targetU = activeTab === 'mati' ? 'mati' : 'michelle';
                 const pIncome = data.incomes?.[targetU] || 0;
                 const pExp = activeTab === 'mati' ? matiExp : michelleExp;
@@ -1911,7 +1912,7 @@
                 `;
 
                 // Calculate Stats for Sidebar
-                const pEntries = allEntries.filter(e => e.pid === targetPid || (targetPid === 'M' ? e.pid === 'S' : e.pid === 'S'));
+                const pEntries = allEntries.filter(e => e.pid === targetPid || e.pid === 'S');
                 const statsMap = {};
                 pEntries.forEach(e => {
                     const pillar = db.config.pillars.find(p => p.id === e.pid);
@@ -1943,7 +1944,6 @@
 
                 const grid = document.getElementById(targetU + 'Grid');
                 grid.innerHTML = '';
-                const targetPid = activeTab === 'mati' ? 'M' : 'P';
                 [targetPid, 'S'].forEach(pid => {
                     const p = db.config.pillars.find(pp => pp.id === pid);
                     const entries = allEntries.filter(e => e.pid === pid);
@@ -2048,11 +2048,9 @@
         function switchTab(tab) {
             activeTab = tab;
 
-            // Apply theme to body
-            document.body.className = '';
-            if (tab === 'mati') document.body.classList.add('theme-mati');
-            else if (tab === 'michelle') document.body.classList.add('theme-michelle');
-            else document.body.classList.add('theme-global');
+            // Apply theme to body without clearing other classes
+            document.body.classList.remove('theme-mati', 'theme-michelle', 'theme-global');
+            document.body.classList.add('theme-' + tab);
 
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 if (btn.innerText.toLowerCase().includes(tab)) btn.classList.add('active');
@@ -2105,15 +2103,7 @@
             activeUniType = 'G';
             updateUniUI();
 
-            // Icon logic
-            const title = document.getElementById('uniTitle');
-            if (activeTab === 'michelle') {
-                title.innerHTML = '<i class="fas fa-user-dress" style="color:var(--color-p)"></i> Nuevo para Michelle';
-            } else if (activeTab === 'mati') {
-                title.innerHTML = '<i class="fas fa-user" style="color:var(--color-m)"></i> Nuevo para Matías';
-            } else {
-                title.innerHTML = '<i class="fas fa-users" style="color:var(--color-s)"></i> Registro Compartido';
-            }
+            updateUniUI();
 
             document.getElementById('uniAmount').value = '';
             document.getElementById('uniDesc').value = '';
@@ -2146,6 +2136,17 @@
             document.getElementById('uniTypeA').className = `type-opt ${activeUniType === 'A' ? 'active savings' : ''}`;
 
             const pillar = db.config.pillars.find(p => p.id === activeUniPillar);
+            
+            // Update Title and Icon dynamically
+            const title = document.getElementById('uniTitle');
+            if (activeUniPillar === 'P') {
+                title.innerHTML = '<i class="fas fa-user-dress" style="color:var(--color-p)"></i> Nuevo para Michelle';
+            } else if (activeUniPillar === 'M') {
+                title.innerHTML = '<i class="fas fa-user" style="color:var(--color-m)"></i> Nuevo para Matías';
+            } else {
+                title.innerHTML = '<i class="fas fa-users" style="color:var(--color-s)"></i> Registro Compartido';
+            }
+
             const select = document.getElementById('uniSub');
             select.innerHTML = '<option value="">General</option>';
             pillar.subs.forEach(s => select.innerHTML += `<option value="${s.id}">${s.name}</option>`);
